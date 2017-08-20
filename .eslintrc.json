@@ -1,0 +1,48 @@
+{
+  "env" : {
+    "node" : true,
+    "es6" : true
+  },
+  "extends" : "eslint:recommended",
+  "parserOptions" : {
+    "sourceType" : "module"
+  },
+  "rules" : {
+    "array-bracket-spacing" : ["error", "never"],
+    "array-callback-return" : ["error"],
+    "arrow-body-style" : ["error", "always"],
+    "arrow-parens" : ["error", "always"],
+    "brace-style" : ["error", "stroustrup", {"allowSingleLine" : true}],
+    "comma-style" : ["error", "last"],
+    "comma-dangle" : ["error", "never"],
+    "dot-notation" : ["error"],
+    "eqeqeq" : ["error", "smart"],
+    "indent" : ["error", 2, {"SwitchCase": 1}],
+    "keyword-spacing" : ["error", {"before" : true, "after" : false, "overrides" : {"case" : {"after" : true}, "return" : {"after" : true}}}],
+    "linebreak-style" : ["error", "windows"],
+    "max-len" : ["error", {"code" : 150, "ignoreStrings" : true, "ignoreRegExpLiterals" : true}],
+    "new-cap" : ["error"],
+    "no-array-constructor" : ["error"],
+    "no-confusing-arrow" : ["error", {"allowParens": false}],
+    "no-console" : ["error", {"allow" : ["error", "info", "warn"]}],
+    "no-duplicate-imports" : ["error", {"includeExports": true}],
+    "no-nested-ternary" : ["error"],
+    "no-new-func" : ["error"],
+    "no-new-object" : ["error"],
+    "no-param-reassign" : ["error"],
+    "no-underscore-dangle" : ["error", {"allow" : ["_method", "_csrf"]}],
+    "no-unneeded-ternary" : ["error"],
+    "no-useless-escape" : ["error"],
+    "no-var" : ["error"],
+    "object-curly-spacing" : ["error", "never"],
+    "one-var" : ["error", "never"],
+    "prefer-const" : ["error"],
+    "quote-props" : ["error"],
+    "quotes" : ["error", "single"],
+    "radix" : ["error", "always"],
+    "semi" : ["error", "always"],
+    "space-before-function-paren" : ["error", "never"],
+    "space-infix-ops" : ["error"],
+    "spaced-comment" : ["error", "always"]
+  }
+}

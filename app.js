@@ -50,22 +50,45 @@ for(let i = 0; i < data.length; i++){
 totalStat = Math.floor(totalStat / data.length);
 console.info('TotalStat : ' + totalStat);
 
-const equilibre = net.run({'intell' : 0.62074, 'crit' : 0.07056, 'haste' : 0.07056, 'mastery' : 0.07056, 'versa' : 0.07056});
-const crit      = net.run({'intell' : 0.62074, 'crit' : 0.12000, 'haste' : 0.05408, 'mastery' : 0.05408, 'versa' : 0.05408});
-const haste     = net.run({'intell' : 0.62074, 'crit' : 0.05408, 'haste' : 0.12000, 'mastery' : 0.05408, 'versa' : 0.05408});
-const mastery   = net.run({'intell' : 0.62074, 'crit' : 0.05408, 'haste' : 0.05408, 'mastery' : 0.12000, 'versa' : 0.05408});
-const versa     = net.run({'intell' : 0.62074, 'crit' : 0.05408, 'haste' : 0.05408, 'mastery' : 0.05408, 'versa' : 0.12000});
-const opti      = net.run({'intell' : 0.62074, 'crit' : 0.07000, 'haste' : 0.02000, 'mastery' : 0.12000, 'versa' : 0.07000});
 
-console.info('Equilibre :');
-console.info(equilibre);
-console.info('Crit :');
-console.info(crit);
-console.info('Haste :');
-console.info(haste);
-console.info('Mastery :');
-console.info(mastery);
-console.info('Versa :');
-console.info(versa);
-console.info('Opti :');
-console.info(opti);
+
+
+// SIMULATOR
+
+const nbTests = 10000;
+const results = [];
+
+function randomFromInterval(min, max){
+  return Math.random() * (max - min) + min;
+}
+
+for(let i = 0; i < nbTests; i++){
+  const critRatio = randomFromInterval(1, 4);
+  const hasteRatio = randomFromInterval(1, 4);
+  const masteryRatio = randomFromInterval(1, 4);
+  const versaRatio = randomFromInterval(1, 4);
+  const totalRatio = critRatio + hasteRatio + masteryRatio + versaRatio;
+  const crit = totalStat * critRatio / totalRatio / 100000;
+  const haste = totalStat * hasteRatio / totalRatio / 100000;
+  const mastery = totalStat * masteryRatio / totalRatio / 100000;
+  const versa = totalStat * versaRatio / totalRatio / 100000;
+  const input = {'intell' : 0.62074, 'crit' : crit, 'haste' : haste, 'mastery' : mastery, 'versa' : versa};
+  const output = net.run(input);
+  results.push({input, output});
+}
+
+results.sort(function(a, b){
+  return b.output.hps - a.output.hps;
+});
+
+for(let i = 0; i < 5; i++) {
+  console.info('======================');
+  console.info('Rank : ' + (i + 1));
+  console.info('Hps : ' + results[i].output.hps * 10000000);
+  console.info('Over% : ' + results[i].output.over * 100);
+  console.info('--------');
+  console.info('Crit : ' + results[i].input.crit * 100000);
+  console.info('Haste : ' + results[i].input.haste * 100000);
+  console.info('Mastery : ' + results[i].input.mastery * 100000);
+  console.info('Versa : ' + results[i].input.versa * 100000);
+}

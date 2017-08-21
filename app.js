@@ -91,11 +91,11 @@ results.sort(function(a, b){
 for(let i = 0; i < 5; i++) {
   console.info('======================');
   console.info('Rank : ' + (i + 1));
-  console.info('Hps : ' + results[i].output.hps * 10000000);
+  console.info('Hps : ' + Math.floor(results[i].output.hps * 10000000));
   console.info('Over% : ' + results[i].output.over * 100);
   console.info('--------');
-  console.info('Crit : ' + results[i].input.crit * 100000);
-  console.info('Haste : ' + results[i].input.haste * 100000);
-  console.info('Mastery : ' + results[i].input.mastery * 100000);
-  console.info('Versa : ' + results[i].input.versa * 100000);
+  console.info('Crit : ' + Math.floor(results[i].input.crit * 100000));
+  console.info('Haste : ' + Math.floor(results[i].input.haste * 100000));
+  console.info('Mastery : ' + Math.floor(results[i].input.mastery * 100000));
+  console.info('Versa : ' + Math.floor(results[i].input.versa * 100000));
 }

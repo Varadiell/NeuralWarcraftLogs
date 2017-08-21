@@ -6,11 +6,11 @@ const params = {
   'errorThresh' : 0.0001, // error threshold to reach
   'iterations' : 1000000, // maximum training iterations 1000000
   'log' : true,           // console.log() progress periodically
-  'logPeriod' : 100000,   // number of iterations between logging
-  'learningRate' : 0.3    // learning rate
+  'logPeriod' : 50000,   // number of iterations between logging
+  'learningRate' : 0.1    // learning rate
 };
 
-// Données (Druide Heal - Top 20 Maiden MM)
+// Données (Druide Heal - Top 30 Maiden MM)
 const data = [
   {'input' : {'intell' : 0.65131, 'crit' : 0.03651, 'haste' : 0.12364, 'mastery' : 0.09129, 'versa' : 0.02432}, 'output' : {'hps' : 0.1769588, 'over' : 0.2804}},
   {'input' : {'intell' : 0.61140, 'crit' : 0.06476, 'haste' : 0.08009, 'mastery' : 0.14290, 'versa' : 0.03011}, 'output' : {'hps' : 0.1702236, 'over' : 0.1757}},
@@ -31,7 +31,17 @@ const data = [
   {'input' : {'intell' : 0.55768, 'crit' : 0.04035, 'haste' : 0.09356, 'mastery' : 0.10574, 'versa' : 0.04385}, 'output' : {'hps' : 0.1545192, 'over' : 0.1768}},
   {'input' : {'intell' : 0.57958, 'crit' : 0.06048, 'haste' : 0.09266, 'mastery' : 0.09949, 'versa' : 0.04804}, 'output' : {'hps' : 0.1537918, 'over' : 0.1408}},
   {'input' : {'intell' : 0.63819, 'crit' : 0.07380, 'haste' : 0.09903, 'mastery' : 0.06173, 'versa' : 0.03743}, 'output' : {'hps' : 0.1536389, 'over' : 0.2159}},
-  {'input' : {'intell' : 0.63192, 'crit' : 0.04679, 'haste' : 0.09538, 'mastery' : 0.10326, 'versa' : 0.03397}, 'output' : {'hps' : 0.1536181, 'over' : 0.3446}}
+  {'input' : {'intell' : 0.63192, 'crit' : 0.04679, 'haste' : 0.09538, 'mastery' : 0.10326, 'versa' : 0.03397}, 'output' : {'hps' : 0.1536181, 'over' : 0.3446}},
+  {'input' : {'intell' : 0.66494, 'crit' : 0.06205, 'haste' : 0.09698, 'mastery' : 0.10094, 'versa' : 0.02081}, 'output' : {'hps' : 0.1532175, 'over' : 0.3526}},
+  {'input' : {'intell' : 0.63161, 'crit' : 0.05554, 'haste' : 0.07384, 'mastery' : 0.11302, 'versa' : 0.03477}, 'output' : {'hps' : 0.1522689, 'over' : 0.2274}},
+  {'input' : {'intell' : 0.63219, 'crit' : 0.05875, 'haste' : 0.09943, 'mastery' : 0.08752, 'versa' : 0.01924}, 'output' : {'hps' : 0.1521608, 'over' : 0.2247}},
+  {'input' : {'intell' : 0.62153, 'crit' : 0.05286, 'haste' : 0.08405, 'mastery' : 0.12740, 'versa' : 0.01136}, 'output' : {'hps' : 0.1515289, 'over' : 0.2942}},
+  {'input' : {'intell' : 0.61461, 'crit' : 0.08227, 'haste' : 0.05952, 'mastery' : 0.10033, 'versa' : 0.03289}, 'output' : {'hps' : 0.1515222, 'over' : 0.2916}},
+  {'input' : {'intell' : 0.62307, 'crit' : 0.06267, 'haste' : 0.11733, 'mastery' : 0.09485, 'versa' : 0.01114}, 'output' : {'hps' : 0.1509568, 'over' : 0.2853}},
+  {'input' : {'intell' : 0.64513, 'crit' : 0.08209, 'haste' : 0.06202, 'mastery' : 0.09494, 'versa' : 0.04067}, 'output' : {'hps' : 0.1509082, 'over' : 0.2580}},
+  {'input' : {'intell' : 0.61435, 'crit' : 0.04889, 'haste' : 0.07875, 'mastery' : 0.10960, 'versa' : 0.04058}, 'output' : {'hps' : 0.1505480, 'over' : 0.3002}},
+  {'input' : {'intell' : 0.63683, 'crit' : 0.11090, 'haste' : 0.08924, 'mastery' : 0.06097, 'versa' : 0.02596}, 'output' : {'hps' : 0.1504542, 'over' : 0.2235}},
+  {'input' : {'intell' : 0.66236, 'crit' : 0.05203, 'haste' : 0.11914, 'mastery' : 0.09144, 'versa' : 0.01570}, 'output' : {'hps' : 0.1501811, 'over' : 0.2780}}
 ];
 
 net.train(data, params);
@@ -55,7 +65,7 @@ console.info('TotalStat : ' + totalStat);
 
 // SIMULATOR
 
-const nbTests = 10000;
+const nbTests = 100000;
 const results = [];
 
 function randomFromInterval(min, max){
@@ -85,7 +95,7 @@ for(let i = 0; i < nbTests; i++){
 }
 
 results.sort(function(a, b){
-  return b.output.hps - a.output.hps;
+  return b.output.hps * (1 + b.output.over * 0.33) - a.output.hps * (1 + a.output.over * 0.33);
 });
 
 for(let i = 0; i < 5; i++) {

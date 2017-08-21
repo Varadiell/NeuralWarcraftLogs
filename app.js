@@ -6,8 +6,8 @@ const params = {
   'errorThresh' : 0.0001, // error threshold to reach
   'iterations' : 1000000, // maximum training iterations 1000000
   'log' : true,           // console.log() progress periodically
-  'logPeriod' : 10000,    // number of iterations between logging
-  'learningRate' : 0.6    // learning rate
+  'logPeriod' : 100000,   // number of iterations between logging
+  'learningRate' : 0.3    // learning rate
 };
 
 // Données (Druide Heal - Top 20 Maiden MM)
@@ -64,11 +64,14 @@ function randomFromInterval(min, max){
 
 for(let i = 0; i < nbTests; i++){
   let remaining = totalStat;
-  const critRatio = randomFromInterval(500, totalStat / 2);
+  const critRatio = randomFromInterval(totalStat / 35, totalStat / 2);
   remaining -= critRatio;
-  const hasteRatio = randomFromInterval(500, Math.min(totalStat / 2, remaining - 500 - 500));
+  const hasteRatio = randomFromInterval(totalStat / 35, Math.min(totalStat / 2, remaining - totalStat / 35 * 2));
   remaining -= hasteRatio;
-  const masteryRatio = randomFromInterval(Math.max(500, remaining / 2 - 500), Math.min(totalStat / 2, remaining - 500));
+  const masteryRatio = randomFromInterval(
+    Math.max(totalStat / 35, remaining / 2 - totalStat / 35),
+    Math.min(totalStat / 2, remaining - totalStat / 35)
+  );
   remaining -= masteryRatio;
   const versaRatio = remaining;
   const totalRatio = critRatio + hasteRatio + masteryRatio + versaRatio;

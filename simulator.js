@@ -6,11 +6,11 @@ const net = new brain.NeuralNetwork();
 exports.simulate = function(data){
 
   const params = {
-    'errorThresh' : 0.001, // error threshold to reach
-    'iterations' : 300000, // maximum training iterations 1000000
-    'log' : true,           // console.log() progress periodically
-    'logPeriod' : 50000,   // number of iterations between logging
-    'learningRate' : 0.5    // learning rate
+    'errorThresh' : 0.00001, // error threshold to reach
+    'iterations' : 300000,   // maximum training iterations 1000000
+    'log' : true,            // console.log() progress periodically
+    'logPeriod' : 50000,     // number of iterations between logging
+    'learningRate' : 0.3     // learning rate
   };
 
   net.train(data, params);
